@@ -1,36 +1,88 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-# Universal Semantic Embeddings for Elements
-ElementBERT and Down-stream Tasks
 
-This repository is the code inplementaion of the paper: "Universal Semantic Embeddings of Chemical Elements for Enhanced Materials Inference and Discovery".
-+ The pre-training of ElementBERT is shown in file "ElementBERT_training"
-+ The down-stream tasks code is shown in file "downstream_tasks"
-+ The requirements files are listed separately in the above two files. We use different python envirnments to do these two studies, as the pre-training of ElementBERT is seperate from materails inferences.
+# Universal Semantic Embeddings for Elements (ElementBERT)
 
-## Setup
-The code we provide is friendly to rookies. Just simply download all files to get started!
+## Overview
+This repository contains the official implementation of the paper: "Universal Semantic Embeddings of Chemical Elements for Enhanced Materials Inference and Discovery". ElementBERT is a novel approach for generating semantic embeddings of chemical elements to facilitate materials discovery and inference.
 
-## Instructions
-+ We've tested on various platforms, including `Windows` and `Linux`, as well as different python versions, feel free to run tests on `python 3.10` to `python 3.12` environments. You can create your envirnment using `conda` or `pip`.
-+ We recommend using [conda environments](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html). Then activate the enviroment for pre-training or down-stream tasks, like `conda activate trainingBERT`or `conda activate gprtests`.
-+ Make sure to run `pip install --ignore-installed -r requirements.txt` to install the required packages. Note: If you failed some installations in this step, probably pytorch, you can install the packages separately using `pip install [package_name]` or `conda install [package_name]`.
-+ Then you are ALL SET!
+## Repository Structure
 
-### Pre-training data harvest
-If you have the access to database like Web of Science or Scopus, you can easily download the abstracts you want to pre-train on. The abstracts are well organized in the downloaded .xlsx or .csv files, you can easily extract these text to a .md or .txt file using a simple python code (which we didn't provide :)).
++ The pre-training of ElementBERT is shown in folder "ElementBERT_training"
++ The down-stream tasks code is shown in folder "downstream_tasks"
++ The requirements files are listed separately in the above two folders. We use different python envirnments to do these two studies, as the pre-training of ElementBERT is seperate from materails inferences.
 
-### Pre-training steps
-Training LLMs requires huge amount of computing resorces, so that we submitted our training job on a cluster server using the Slurm job scheduling system. The `.sh` file for submitting the job is provided in the repo.
-The GPU memory usage of this model is about 30 GB. So we suggest using A100 40G to pre-train the model.
-#### File explaination
-+ `Alloy_run.sh` is the submitting file we use. It schedully runs 4 python scripts for data processing, tokenizer training and model training.
-+ `Alloy_json_combination.py` is excecuted 1st, to split a corpus of text data into training and evaluation (validation) sets.
-+ `Alloy_corpus_normalize.py` is excecuted 2nd, to processes text data using BERT-style normalization.
-+ `Alloy_tokenizer_train.py` is excecuted 3rd, to create and train a custom tokenizer based on `DeBERTa-v3-xsmall` model.
-+ `Alloy_model_train.py` is excecuted last, to train the BERT model using `DebertaV2ForMaskedLM` with `transformers` python package.
+## Requirements
+- Python 3.10-3.12
+- CUDA-compatible GPU (A100 40GB recommended for pre-training)
+- Operating Systems: Windows or Linux
 
-### Down-stream tasks implementation
+## Installation
 
+### Environment Setup
+1. Create and activate a conda environment:
+```bash
+# For pre-training
+conda create -n trainingBERT python=3.10
+conda activate trainingBERT
+
+# For downstream tasks
+conda create -n gprtests python=3.10
+conda activate gprtests
+```
+
+2. Install dependencies:
+```bash
+pip install --ignore-installed -r requirements.txt
+```
+
+> **Note**: If package installation fails (especially PyTorch), try installing packages individually:
+> ```bash
+> pip install <package_name>
+> # or
+> conda install <package_name>
+> ```
+
+## Model Pre-training
+
+### Data Preparation
+- Source: Web of Science or Scopus databases
+- Format: Extract abstracts from .xlsx/.csv files into .md/.txt format
+- Data Processing Pipeline:
+  1. `Alloy_json_combination.py`: Training/validation set splitting
+  2. `Alloy_corpus_normalize.py`: BERT-style text normalization
+  3. `Alloy_tokenizer_train.py`: Custom tokenizer training (DeBERTa-v3-xsmall based)
+  4. `Alloy_model_train.py`: Model training using DebertaV2ForMaskedLM
+
+### Training Infrastructure
+- Computing Environment: HPC cluster with Slurm scheduler
+- GPU Requirements: ~30GB VRAM (A100 40GB recommended)
+- Execution: Use provided `Alloy_run.sh` for orchestrating the training pipeline
+
+## Downstream Tasks
+
+### Task Categories
+1. Regression Analysis
+2. Classification
+3. Bayesian Optimization (BO) Inference
+4. Base Model Verification
+
+### Implementation Details
+- Each task category has a dedicated directory
+- Core Components:
+  - Task-specific Slurm submission scripts (`.sh`)
+  - Main task script (`verify_feature_eff.py`)
+  - Model-specific hyperparameter tuning scripts for base models (MLP, GPR, RF, XGBoost `*_tuning.py`)
+
+### Usage
+To evaluate different alloy systems (SMAs, HEAs, Ti alloys):
+1. Navigate to the respective task directory
+2. Modify data directory paths in `verify_feature_eff.py`
+3. Execute the verification script
 
 ## License
-Universal Semantic Embeddings for Elements is distributed under an MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+This project builds upon or incorporates code from the following repositories:
+- [MGEdata/SteelScientist](https://github.com/mgedata/SteelScientist) - The pre-tarining part.
+- [diegoxue/FeatureGradientBO](https://github.com/diegoxue/FeatureGradientBO) - The down-stream tasks part.
