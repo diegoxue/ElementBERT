@@ -9,7 +9,7 @@ This repository contains the official implementation of the paper: "Universal Se
 
 + The pre-training of ElementBERT is shown in folder "ElementBERT_training"
 + The down-stream tasks code is shown in folder "downstream_tasks"
-+ The requirements files are listed separately in the above two folders. We use different python envirnments to do these two studies, as the pre-training of ElementBERT is seperate from materails inferences.
++ The requirements files are listed separately in the above two folders. We use different python envirnments to do these two studies, as the pre-training of ElementBERT is seperate from materials inferences.
 
 ## Requirements
 - Python 3.10-3.12
