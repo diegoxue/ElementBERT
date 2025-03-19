@@ -3,7 +3,7 @@
 # Universal Semantic Embeddings for Elements (ElementBERT)
 
 ## Overview
-This repository contains the official implementation of the paper: "Universal Semantic Embeddings of Chemical Elements for Enhanced Materials Inference and Discovery". ElementBERT is a novel approach for generating semantic embeddings of chemical elements to facilitate materials discovery and inference.
+This repository contains the official implementation of the paper: "Universal Semantic Embeddings of Chemical Elements for Enhanced Materials Inference and Discovery"（https://doi.org/10.48550/arXiv.2502.14912）. ElementBERT is a novel approach for generating semantic embeddings of chemical elements to facilitate materials discovery and inference.
 
 ## Repository Structure
 
